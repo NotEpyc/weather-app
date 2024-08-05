@@ -1,6 +1,6 @@
-String getBackgroundImage(int weatherCode, bool daytime) {
-    String imagePath = '';
-    switch (weatherCode) {
+String weatherText(int weatherCod) {
+  String conditonText = '';
+  switch (weatherCod) {
 
       // Group 2xx: Thunderstorm
       case 200:
@@ -13,7 +13,7 @@ String getBackgroundImage(int weatherCode, bool daytime) {
       case 230:
       case 231:
       case 232:
-        imagePath = 'assets/weather_background/thunderstorm.jpg';
+        conditonText = 'Thunderstorm';
         break;
 
       // Group 3xx: Drizzle
@@ -26,6 +26,8 @@ String getBackgroundImage(int weatherCode, bool daytime) {
       case 313:
       case 314:
       case 321:
+        conditonText = 'Drizzle';
+        break;
 
       // Group 5xx: Rain
       case 500:
@@ -38,7 +40,7 @@ String getBackgroundImage(int weatherCode, bool daytime) {
       case 521:
       case 522:
       case 531:
-        imagePath = 'assets/weather_background/rain.jpg';
+        conditonText = 'Rain';
         break;
 
       // Group 6xx: Snow
@@ -53,43 +55,53 @@ String getBackgroundImage(int weatherCode, bool daytime) {
       case 620:
       case 621:
       case 622:
-        imagePath = 'assets/weather_background/snow.jpg';
+        conditonText = 'Snow';
         break;
 
       // Group 7xx: Atmosphere
       case 701:
-      case 721:
-      case 741:
-        imagePath = 'assets/weather_background/fog.jpg';
+        conditonText = 'Mist';
         break;
-        case 711:
+      case 711:
+        conditonText = 'Smoke';
+        break;
+      case 721:
+        conditonText = 'Haze';
+        break;
       case 731:
+        conditonText = 'Dust Whirls';
+        break;
+      case 741:
+        conditonText = 'Fog';
+        break;
       case 751:
       case 761:
       case 762:
-        imagePath = 'assets/weather_background/dust.jpg';
+        conditonText = 'Dust';
         break;
       case 771:
+        conditonText = 'Squall';
+        break;
       case 781:
-        imagePath = 'assets/weather_background/tornado.jpg';
+        conditonText = 'Tornado';
         break;
 
       // Group 800: Clear Sky
       case 800:
-        imagePath = daytime? 'assets/weather_background/clear_day.jpg' : 'assets/weather_background/clear_night.jpg';
+        conditonText = 'Clear Sky';
+        break;
       case 801:
       case 802:
       case 803:
       case 804:
         // Clouds
-        imagePath = daytime? 'assets/weather_background/day_cloud.jpg' : 'assets/weather_background/night_cloud.jpg';
+        conditonText = 'Cloudy';
         break;
-
       default:
-        // Default image or gradient for other conditions
-        imagePath = daytime? 'assets/weather_background/clear_day.jpg' : 'assets/weather_background/clear_night.jpg';
+        // Default text for other conditions
+        conditonText = '';
         break;
     }
 
-    return imagePath;
+    return conditonText;
 }

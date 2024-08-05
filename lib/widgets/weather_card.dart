@@ -8,7 +8,8 @@ import 'package:weather_app/services/location.dart';
 import 'package:weather_app/services/weather.dart';
 import 'package:weather_app/models/hourly_weather.dart';
 import 'package:weather_app/widgets/weather_icon.dart';
-import 'package:weather_app/services/background_image.dart';
+import 'package:weather_app/widgets/weather_bg.dart';
+import 'package:weather_app/widgets/weather_text.dart';
 
 class WeatherCard extends StatefulWidget {
   const WeatherCard({super.key});
@@ -163,43 +164,73 @@ class _WeatherCardState extends State<WeatherCard> {
                     // Spacer
                     SizedBox(height: (imageHeight/4)),
                   
-                    Stack( 
-                      children: [
-                        Text(
-                          '${curTemp?.toInt() ?? '--'}°C',
-                          style: GoogleFonts.sofiaSansCondensed(
-                            color: Colors.white,
-                            fontSize: 100,
-                            fontWeight: FontWeight.bold,
-                            shadows: [
-                              Shadow(
-                                color: Color.fromARGB(255, 161, 161, 161),
-                                offset: Offset(-1, -1),
-                                blurRadius: 0.2,
-                              ),
-                              Shadow(
-                                color: Color.fromARGB(255, 161, 161, 161),
-                                offset: Offset(1, -1),
-                                blurRadius: 0.2,
-                              ),
-                              Shadow(
-                                color: Color.fromARGB(255, 161, 161, 161),
-                                offset: Offset(-1, 1),
-                                blurRadius: 0.2,
-                              ),
-                              Shadow(
-                                color: Color.fromARGB(255, 161, 161, 161),
-                                offset: Offset(1, 1),
-                                blurRadius: 0.2,
-                              ),
-                            ],
-                          )
-                        ),
-                      ])
+                    Text(
+                      '${curTemp?.toInt() ?? '--'}°C',
+                      style: GoogleFonts.sofiaSansCondensed(
+                        color: Colors.white,
+                        fontSize: 100,
+                        fontWeight: FontWeight.bold,
+                        shadows: [
+                          Shadow(
+                            color: Color.fromARGB(255, 161, 161, 161),
+                            offset: Offset(-1, -1),
+                            blurRadius: 0.2,
+                          ),
+                          Shadow(
+                            color: Color.fromARGB(255, 161, 161, 161),
+                            offset: Offset(1, -1),
+                            blurRadius: 0.2,
+                          ),
+                          Shadow(
+                            color: Color.fromARGB(255, 161, 161, 161),
+                            offset: Offset(-1, 1),
+                            blurRadius: 0.2,
+                          ),
+                          Shadow(
+                            color: Color.fromARGB(255, 161, 161, 161),
+                            offset: Offset(1, 1),
+                            blurRadius: 0.2,
+                          ),
+                        ],
+                      )
+                    ),
+
+                    Text(
+                      weatherText(weatherCod!),
+                      style: GoogleFonts.sofiaSansCondensed(
+                        color: Colors.white,
+                        fontSize: 50,
+                        fontWeight: FontWeight.bold,
+                        shadows: [
+                          Shadow(
+                            color: Color.fromARGB(255, 161, 161, 161),
+                            offset: Offset(-1, -1),
+                            blurRadius: 0.2,
+                          ),
+                          Shadow(
+                            color: Color.fromARGB(255, 161, 161, 161),
+                            offset: Offset(1, -1),
+                            blurRadius: 0.2,
+                          ),
+                          Shadow(
+                            color: Color.fromARGB(255, 161, 161, 161),
+                            offset: Offset(-1, 1),
+                            blurRadius: 0.2,
+                          ),
+                          Shadow(
+                            color: Color.fromARGB(255, 161, 161, 161),
+                            offset: Offset(1, 1),
+                            blurRadius: 0.2,
+                          ),
+                        ],
+                      )
+                    ),
+                      
                   ],
                 ),
               ),
             ),
+
             if (areaName != null)
               Positioned(
                 top: imageHeight + (imageHeight*0.02),
