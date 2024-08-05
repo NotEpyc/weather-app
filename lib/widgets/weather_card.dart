@@ -233,7 +233,7 @@ class _WeatherCardState extends State<WeatherCard> {
 
             if (areaName != null)
               Positioned(
-                top: imageHeight + (imageHeight*0.02),
+                top: imageHeight,
                 left: 0,
                 right: 0,
                 height: forecastElementHeight,
@@ -244,7 +244,7 @@ class _WeatherCardState extends State<WeatherCard> {
                       children: [
                         Container(
                           alignment: AlignmentDirectional.centerEnd,
-                          padding: EdgeInsets.only(top: 5, bottom: 0, left: 20),
+                          padding: EdgeInsets.only(bottom: 0, left: 20),
                           child: Text(
                                   'Overview',
                                   style: GoogleFonts.sofiaSansExtraCondensed(
@@ -314,7 +314,7 @@ class _WeatherCardState extends State<WeatherCard> {
     return Container(
       width: (screenWidth/5) - ((screenWidth/5)*0.05),
       decoration: BoxDecoration(
-        color: isDarkMode ? Color.fromARGB(255, 159, 159, 159) : Color.fromARGB(255, 76, 76, 76),
+        color: isDarkMode ? Color.fromARGB(255, 45, 45, 45) : Color.fromARGB(255, 225, 225, 225),
         borderRadius: BorderRadius.circular(8),
       ),
       child: Column(
@@ -322,7 +322,7 @@ class _WeatherCardState extends State<WeatherCard> {
           Text(
             DateFormat.j().format(forecastDate),
             style: GoogleFonts.sofiaSans(
-              color: isDarkMode ? Colors.black : Colors.white,
+              color: isDarkMode ? Colors.white : Colors.black,
               fontSize: 18,
               fontWeight: FontWeight.w400
             ),
@@ -333,7 +333,7 @@ class _WeatherCardState extends State<WeatherCard> {
           Text(
             '${forecastTemp.toInt()} °C',
             style: GoogleFonts.sofiaSans(
-              color: isDarkMode ? Colors.black : Colors.white,
+              color: isDarkMode ? Colors.white : Colors.black,
               fontSize: 13,
               fontWeight: FontWeight.w300
             ),
