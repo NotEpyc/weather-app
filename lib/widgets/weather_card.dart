@@ -285,9 +285,9 @@ class _WeatherCardState extends State<WeatherCard> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: <Widget>[
                             if (hourlyForecast != null)
-                              for (int i = 0; i < 8; i++) ...[
+                              for (int i = 1; i < 9; i++) ...[
                                 forecastElement(hourlyForecast![i], isDarkMode, screenWidth),
-                                if (i < 7) SizedBox(width: 5.0),
+                                if (i < 8) SizedBox(width: 5.0),
                               ]
                           ],
                         ),
@@ -305,9 +305,34 @@ class _WeatherCardState extends State<WeatherCard> {
   if (sunrise == null || sunset == null) {
     return true;
   }
-  final forecastUtc = forecastDate.toUtc();
-  return forecastUtc.isAfter(sunrise!.toUtc()) && forecastUtc.isBefore(sunset!.toUtc());
+
+  DateTime forecastUtc = forecastDate.toUtc();
+  DateTime sunriseUtc = DateTime.utc(
+    forecastDate.year,
+    forecastDate.month,
+    forecastDate.day,
+    sunrise!.hour,
+    sunrise!.minute,
+    sunrise!.second,
+  );
+
+  DateTime sunsetUtc = DateTime.utc(
+    forecastDate.year,
+    forecastDate.month,
+    forecastDate.day,
+    sunset!.hour,
+    sunset!.minute,
+    sunset!.second,
+  );
+
+  if (sunsetUtc.isBefore(sunriseUtc)) {
+    // Sunset is on the next day
+    sunsetUtc = sunsetUtc.add(Duration(days: 1));
   }
+
+  bool isDay = forecastUtc.isAfter(sunriseUtc) && forecastUtc.isBefore(sunsetUtc);
+  return isDay;
+}
 
 
   Widget forecastElement(HourlyWeather forecast, bool isDarkMode, double screenWidth) {
