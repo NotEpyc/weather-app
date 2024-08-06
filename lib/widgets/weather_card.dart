@@ -85,12 +85,11 @@ class _WeatherCardState extends State<WeatherCard> {
                   image: AssetImage(getBackgroundImage(weatherCod ?? 0, isDayTime(DateTime.now()))),
                   fit: BoxFit.cover,
                 ),
-                
               ),
             ),
           ),
           Positioned(
-            top: imageHeight-(imageHeight*0.04),
+            top: imageHeight-25, // Default IconButton size = 48 and padding = 2
             right: 10,
             child: Container(
               alignment: Alignment.topRight,
@@ -101,6 +100,7 @@ class _WeatherCardState extends State<WeatherCard> {
               child: IconButton(
                 onPressed: _getLocation,
                 icon: Icon(Icons.refresh_rounded, color: isDarkMode ? Colors.white : Colors.black,),
+                iconSize: 24,
               ),
             ),
           ),
@@ -251,7 +251,7 @@ class _WeatherCardState extends State<WeatherCard> {
                       children: [
                         Container(
                           alignment: AlignmentDirectional.centerEnd,
-                          padding: EdgeInsets.only(bottom: 0, left: 20),
+                          padding: EdgeInsets.only(top: 15, bottom: 0, left: 20),
                           child: Text(
                                   'Overview',
                                   style: GoogleFonts.sofiaSansExtraCondensed(
@@ -277,24 +277,22 @@ class _WeatherCardState extends State<WeatherCard> {
                       ],
                     ),
 
-                        Container(
-                          padding: EdgeInsets.symmetric(vertical: 20),
-                          child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: <Widget>[
-                              if (hourlyForecast != null)
-                                forecastElement(hourlyForecast![0], isDarkMode, screenWidth),
-                              if (hourlyForecast != null && hourlyForecast!.length > 1)
-                                forecastElement(hourlyForecast![1], isDarkMode, screenWidth),
-                              if (hourlyForecast != null && hourlyForecast!.length > 2)
-                                forecastElement(hourlyForecast![2], isDarkMode, screenWidth),
-                              if (hourlyForecast != null && hourlyForecast!.length > 3)
-                                forecastElement(hourlyForecast![3], isDarkMode, screenWidth),
-                              if (hourlyForecast != null && hourlyForecast!.length > 4)
-                                forecastElement(hourlyForecast![4], isDarkMode, screenWidth),
-                            ],
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Container(
+                        padding: EdgeInsets.symmetric(vertical: 20, horizontal: 5),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: <Widget>[
+                            if (hourlyForecast != null)
+                              for (int i = 0; i < 8; i++) ...[
+                                forecastElement(hourlyForecast![i], isDarkMode, screenWidth),
+                                if (i < 7) SizedBox(width: 5.0),
+                              ]
+                          ],
                         ),
-                      )
+                      ),
+                    )
                   ],
                 ),
               )
@@ -319,7 +317,7 @@ class _WeatherCardState extends State<WeatherCard> {
 
     bool daytime = isDayTime(forecastDate);
     return Container(
-      width: (screenWidth/5) - ((screenWidth/5)*0.05),
+      width: (screenWidth/5) - ((screenWidth/5)*0.06),
       decoration: BoxDecoration(
         color: isDarkMode ? Color.fromARGB(255, 70, 69, 69) : Color.fromARGB(255, 225, 225, 225),
         borderRadius: BorderRadius.circular(8),

@@ -31,16 +31,20 @@ String weatherText(int weatherCod) {
 
       // Group 5xx: Rain
       case 500:
+      case 520:
+        conditonText = 'Light Rain';
+        break;
       case 501:
+      case 521:
+        conditonText = 'Moderate Rain';
+        break;
       case 502:
       case 503:
       case 504:
       case 511:
-      case 520:
-      case 521:
       case 522:
       case 531:
-        conditonText = 'Rain';
+        conditonText = 'Heavy Rain';
         break;
 
       // Group 6xx: Snow
