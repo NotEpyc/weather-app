@@ -85,18 +85,25 @@ class _WeatherCardState extends State<WeatherCard> {
                   image: AssetImage(getBackgroundImage(weatherCod ?? 0, isDayTime(DateTime.now()))),
                   fit: BoxFit.cover,
                 ),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.5), 
-                    offset: Offset(0, 4), 
-                    blurRadius: 10, 
-                    spreadRadius: 2,
-                  ),
-                ],
+                
               ),
             ),
           ),
-
+          Positioned(
+            top: imageHeight-(imageHeight*0.04),
+            right: 10,
+            child: Container(
+              alignment: Alignment.topRight,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(50),
+                color: isDarkMode ? Color.fromARGB(255, 70, 69, 69) : Color.fromARGB(255, 225, 225, 225),
+              ),
+              child: IconButton(
+                onPressed: _getLocation,
+                icon: Icon(Icons.refresh_rounded, color: isDarkMode ? Colors.white : Colors.black,),
+              ),
+            ),
+          ),
           if (areaName == null)
             Positioned(
               top: 0,
@@ -225,11 +232,11 @@ class _WeatherCardState extends State<WeatherCard> {
                         ],
                       )
                     ),
-                      
                   ],
                 ),
               ),
             ),
+            
 
             if (areaName != null)
               Positioned(
@@ -257,7 +264,7 @@ class _WeatherCardState extends State<WeatherCard> {
                         
                         Container(
                           alignment: AlignmentDirectional.centerEnd,
-                          padding: EdgeInsets.only(top: 22, bottom: 0, right: 15),
+                          padding: EdgeInsets.only(top: 25, bottom: 0, right: 15),
                           child: Text(
                                   '$areaName, $countryCode',
                                   style: GoogleFonts.sofiaSans(
@@ -314,7 +321,7 @@ class _WeatherCardState extends State<WeatherCard> {
     return Container(
       width: (screenWidth/5) - ((screenWidth/5)*0.05),
       decoration: BoxDecoration(
-        color: isDarkMode ? Color.fromARGB(255, 45, 45, 45) : Color.fromARGB(255, 225, 225, 225),
+        color: isDarkMode ? Color.fromARGB(255, 70, 69, 69) : Color.fromARGB(255, 225, 225, 225),
         borderRadius: BorderRadius.circular(8),
       ),
       child: Column(
