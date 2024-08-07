@@ -130,7 +130,6 @@ class _WeatherCardState extends State<WeatherCard> {
               child: Container(
                 padding: EdgeInsets.all(16.0),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Align(
                       alignment: Alignment.topCenter,
@@ -203,7 +202,7 @@ class _WeatherCardState extends State<WeatherCard> {
                     ),
 
                     Text(
-                      weatherText(weatherCod!),
+                      weatherCod != null ? weatherText(weatherCod!) : 'Loading...',
                       style: GoogleFonts.sofiaSansCondensed(
                         color: Colors.white,
                         fontSize: 50,
@@ -273,14 +272,14 @@ class _WeatherCardState extends State<WeatherCard> {
                                     fontWeight: FontWeight.w300
                                   ),
                                 ),
-                              ),
+                          ),
                       ],
                     ),
 
                     SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
                       child: Container(
-                        padding: EdgeInsets.symmetric(vertical: 20, horizontal: 5),
+                        padding: EdgeInsets.symmetric(vertical: 20, horizontal: 7),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: <Widget>[
@@ -295,7 +294,29 @@ class _WeatherCardState extends State<WeatherCard> {
                     )
                   ],
                 ),
-              )
+              ),
+
+            if (areaName != null)
+              Positioned(
+                top: 29,
+                right: 10,
+                child: Container(
+                  alignment: Alignment.topRight,
+                  height: 40,
+                  width: 40,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(50),
+                    color: Color.fromARGB(255, 70, 69, 69).withOpacity(0.25),
+                  ),
+                  child: IconButton(
+                    onPressed:() {},
+                      icon: Icon(Icons.search_rounded,
+                      color: Colors.white,
+                    ),
+                    iconSize: 24,
+                  ),
+                ),
+              ),  
         ],
       ),
     );
@@ -306,8 +327,8 @@ class _WeatherCardState extends State<WeatherCard> {
     return true;
   }
 
-  DateTime forecastUtc = forecastDate.toUtc();
-  DateTime sunriseUtc = DateTime.utc(
+  DateTime forecastUtc = forecastDate;
+  DateTime sunriseUtc = DateTime(
     forecastDate.year,
     forecastDate.month,
     forecastDate.day,
@@ -316,7 +337,7 @@ class _WeatherCardState extends State<WeatherCard> {
     sunrise!.second,
   );
 
-  DateTime sunsetUtc = DateTime.utc(
+  DateTime sunsetUtc = DateTime(
     forecastDate.year,
     forecastDate.month,
     forecastDate.day,
@@ -326,7 +347,6 @@ class _WeatherCardState extends State<WeatherCard> {
   );
 
   if (sunsetUtc.isBefore(sunriseUtc)) {
-    // Sunset is on the next day
     sunsetUtc = sunsetUtc.add(Duration(days: 1));
   }
 
