@@ -18,18 +18,26 @@ class WeatherCard extends StatefulWidget {
 }
 
 class _WeatherCardState extends State<WeatherCard> {
-  String? areaName, countryCode;
+  String? areaName, countryCode, locationName='';
   double? curTemp;
   int? weatherCod;
   List<HourlyWeather>? hourlyForecast;
-  DateTime? sunrise;
-  DateTime? sunset;
-  
+  DateTime? sunrise, sunset;
+  bool isSearchVisible = false;
+  double searchBarWidth = 48.0;
+
+  final TextEditingController _searchController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
     _getLocation();
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
   }
 
   Future<void> _getLocation() async {
@@ -112,7 +120,7 @@ class _WeatherCardState extends State<WeatherCard> {
               height: screenHeight,
               child: 
                 Container(
-                  color: Colors.black,
+                  color: isDarkMode ? Colors.black : Colors.white,
                   child: Center(
                     child: CircularProgressIndicator(
                       color: isDarkMode ? Colors.white : Colors.black,
@@ -135,8 +143,8 @@ class _WeatherCardState extends State<WeatherCard> {
                       alignment: Alignment.topCenter,
                       child: Padding(
                         padding: EdgeInsets.only(top: 20),
-                          child: Text(
-                          areaName ?? 'Loading...',
+                          child: Text( 
+                          isSearchVisible ? '' : (areaName ?? 'Loading...'),
                           style: GoogleFonts.asap(
                             color: Colors.white,
                             fontSize: 26,
@@ -297,26 +305,66 @@ class _WeatherCardState extends State<WeatherCard> {
               ),
 
             if (areaName != null)
-              Positioned(
-                top: 29,
-                right: 10,
-                child: Container(
-                  alignment: Alignment.topRight,
-                  height: 40,
-                  width: 40,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(50),
-                    color: Color.fromARGB(255, 70, 69, 69).withOpacity(0.25),
-                  ),
-                  child: IconButton(
-                    onPressed:() {},
-                      icon: Icon(Icons.search_rounded,
+            Positioned(
+            top: 29,
+            right: 10,
+            child: AnimatedContainer(
+              duration: Duration(milliseconds: 300),
+              alignment: Alignment.topRight,
+              height: 48,
+              width: searchBarWidth,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(50),
+                color: isSearchVisible? Color.fromARGB(255, 41, 41, 41).withOpacity(0.5) : Color.fromARGB(255, 41, 41, 41).withOpacity(0.1),
+              ),
+              child: Row(
+                children: [
+                  IconButton(
+                    onPressed: () {
+                      setState(() {
+                        if (isSearchVisible) {
+                          searchBarWidth = 48.0;
+                          isSearchVisible = false;
+                        } else {
+                          searchBarWidth = MediaQuery.of(context).size.width - 20;
+                          isSearchVisible = true;
+                        }
+                      });
+                    },
+                    icon: Icon(
+                      isSearchVisible ? Icons.arrow_back_ios_new_rounded : Icons.search_rounded,
                       color: Colors.white,
                     ),
                     iconSize: 24,
                   ),
-                ),
-              ),  
+                  if (isSearchVisible)
+                    Expanded(
+                      child: TextField(
+                        controller: _searchController,
+                        onChanged: (text) {},
+                        style: TextStyle(color: Colors.white),
+                        decoration: InputDecoration(
+                          hintText: "Enter location",
+                          hintStyle: TextStyle(color: const Color.fromARGB(255, 175, 175, 175)),
+                          border: InputBorder.none,
+                        ),
+                      ),
+                    ),
+                    if (isSearchVisible)
+                    IconButton(
+                      onPressed: () {
+                        // Add search action here
+                      },
+                      icon: Icon(
+                        Icons.search_rounded,
+                        color: Colors.white,
+                      ),
+                      iconSize: 24,
+                    ),
+                ],
+              ),
+            ),
+          ), 
         ],
       ),
     );
