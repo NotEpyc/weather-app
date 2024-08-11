@@ -10,6 +10,7 @@ import 'package:weather_app/models/hourly_weather.dart';
 import 'package:weather_app/widgets/weather_icon.dart';
 import 'package:weather_app/widgets/weather_bg.dart';
 import 'package:weather_app/widgets/weather_text.dart';
+import 'package:geocoding/geocoding.dart';
 
 class WeatherCard extends StatefulWidget {
   const WeatherCard({super.key});
@@ -48,6 +49,25 @@ class _WeatherCardState extends State<WeatherCard> {
       setState(() {});
     }
   }
+
+  Future<void> _getLocationByPlaceName(String placeName) async {
+  try {
+    List<Location> locations = await locationFromAddress(placeName);
+
+    if (locations.isNotEmpty) {
+      Location location = locations.first;
+      _getWeather(location.latitude, location.longitude);
+    } else {
+      setState(() {
+        areaName = 'No results found';
+      });
+    }
+  } catch (e) {
+    setState(() {
+      areaName = 'Error loading data';
+    });
+  }
+}
 
   Future<void> _getWeather(double latitude, double longitude) async {
   try {
@@ -353,7 +373,16 @@ class _WeatherCardState extends State<WeatherCard> {
                     if (isSearchVisible)
                     IconButton(
                       onPressed: () {
-                        // Add search action here
+                        final placeName = _searchController.text.trim();
+                        if (placeName.isNotEmpty) {
+                          _getLocationByPlaceName(placeName);
+                          setState(() {
+                            if (isSearchVisible) {
+                              searchBarWidth = 48.0;
+                              isSearchVisible = false;
+                            }
+                          });
+                        }
                       },
                       icon: Icon(
                         Icons.search_rounded,
@@ -361,7 +390,7 @@ class _WeatherCardState extends State<WeatherCard> {
                       ),
                       iconSize: 24,
                     ),
-                ],
+                ]
               ),
             ),
           ), 
