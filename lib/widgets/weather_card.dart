@@ -312,7 +312,7 @@ class _WeatherCardState extends State<WeatherCard> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: <Widget>[
                             if (hourlyForecast != null)
-                              for (int i = 1; i < 9; i++) ...[
+                              for (int i = 0; i < 9; i++) ...[
                                 forecastElement(hourlyForecast![i], isDarkMode, screenWidth),
                                 if (i < 8) SizedBox(width: 5.0),
                               ]
